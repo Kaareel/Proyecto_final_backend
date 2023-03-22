@@ -18,7 +18,6 @@ const credenciales = {
     const formattedQuery = format('SELECT * FROM productos LIMIT %s OFFSET %s', limits, offset);
     pool.query(formattedQuery);
     const { rows: productos } = await pool.query(formattedQuery)
-    console.log(productos)
 
     return productos
   } catch { }
