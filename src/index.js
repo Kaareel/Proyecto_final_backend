@@ -1,8 +1,8 @@
 require("dotenv").config({ path: "./.env" });
 
 const express = require(`express`)
+const { signup, userLogin } = require('./controllers/user')
 const cors = require('cors');
-const { signup } = require('./controllers/user')
 const {viewProducto, nuevoProducto, eliminarProducto} = require('./controllers/product')
 
 const app = express()
@@ -15,4 +15,8 @@ app.post("/producto", nuevoProducto)
 app.delete("/producto/:id", eliminarProducto)
 
 
+app.post("/login", userLogin)
+
 app.listen(4000, console.log(`Server ON`))
+
+module.exports = app
