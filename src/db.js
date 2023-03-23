@@ -7,7 +7,6 @@ const credenciales = {
     database: process.env.DATABASE,
     allowExitOnIdle: true,
 };
-console.log(credenciales)
 
 const pool = new Pool(credenciales);
 

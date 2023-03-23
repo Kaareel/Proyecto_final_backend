@@ -9,4 +9,13 @@ const register = async (email, password, name) => {
     await db.query(query, values)
 }
 
-module.exports = { register }
+const login = async (email, password) => {
+    const values = [email]
+    const consulta = "SELECT * FROM usuario WHERE email = $1"
+    const { rows: [usuario], rowCount } = await db.query(consulta, values)
+    const passwordEsCorrecta = bcrypt.compareSync(password, usuario.password)
+    if (!passwordEsCorrecta || !rowCount)
+        throw { code: 401, message: "Email o contraseña incorrecta" }
+}
+
+module.exports = { register, login }
