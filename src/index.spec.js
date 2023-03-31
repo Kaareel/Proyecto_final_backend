@@ -27,7 +27,6 @@ describe("Test marketplace", () => {
     const { body, statusCode } = await request(server)
       .post("/login")
       .send(payload);
-    console.log({ body });
 
     expect(statusCode).toBe(200);
   });
@@ -37,3 +36,30 @@ describe("Test marketplace", () => {
     expect(statusCode).toBe(400);
   })
 });
+
+describe.only("test de productos", () =>{
+  it("agregar productos", async() => {
+      const newProduct ={
+          "titulo": "audifonos",
+          "img": "htttp:...",
+          "descripcion": "inalambrico",
+          "autor": 22,
+          "precio": 5000
+      }
+      const response = await request(server)
+          .post("/producto")
+          .send(newProduct)
+
+      expect(response.statusCode).toBe(201)
+  }) 
+
+  /*it("eliminar productos", async() => {
+    const response = await request(server)
+            .delete("/producto/")
+            .set('Authorization', 'hola')
+            .send()
+
+        expect(response.statusCode).toBe(404)
+  })*/
+} )
+

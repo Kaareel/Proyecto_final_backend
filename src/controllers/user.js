@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { register, login } = require("../services/user");
+const { register, authentication } = require("../services/user");
 
 const secret = process.env.JWT_SECRET;
 
@@ -10,25 +10,31 @@ async function signup(req, res) {
       return res.status(400).json({ message: "Datos no completados" });
     }
 
-    await register(email, password, name);
-    res.status(201).json({ message: "Usuario registrado correctamente" });
+    const user = await register(email, password, name);
+
+    res.status(201).json({ user });
   } catch (error) {
-    res.status(500).json({ message: "Hubo un error inesperado" });
+    console.error(error)
+    res.status(500).json({ message: "No se pudo registrar al usuario" });
   }
 }
 
-async function userLogin(req, res) {
+async function login(req, res) {
   try {
     const { email, password } = req.body;
+
     if (!email || !password) {
-      return res.status(400).json({ message: "Datos no completados" });
+      return res.status(400).json({ message: "Datos incompletos" });
     }
-    await login(email, password);
+
+   const usuario = await authentication(email, password );
     const token = jwt.sign({ email }, secret, { expiresIn: 60 });
-    res.status(200).json({ token });
+
+    res.status(200).json({ token, usuario });
   } catch (error) {
-    res.status(500).send(error);
+    console.error(error)
+    res.status(500).json({ message: "No se pudo iniciar sesion." });
   }
 }
 
-module.exports = { signup, userLogin };
+module.exports = { signup, login };

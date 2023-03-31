@@ -1,22 +1,24 @@
 require("dotenv").config({ path: "./.env" });
 
-const express = require(`express`)
-const { signup, userLogin } = require('./controllers/user')
-const cors = require('cors');
-const {viewProducto, nuevoProducto, eliminarProducto} = require('./controllers/product')
+const express = require(`express`);
+const { signup, login } = require("./controllers/user");
+const cors = require("cors");
+const {
+  getProducto,
+  nuevoProducto,
+  eliminarProducto,
+} = require("./controllers/product");
 
-const app = express()
-app.use(cors())
-app.use(express.json())
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-app.post("/signup", signup)
-app.get("/producto", viewProducto)
-app.post("/producto", nuevoProducto)
-app.delete("/producto/:id", eliminarProducto)
+app.post("/signup", signup);
+app.post("/login", login);
+app.get("/producto", getProducto);
+app.post("/producto", nuevoProducto);
+app.delete("/producto/:id", eliminarProducto);
 
+app.listen(4000, console.log(`Server ON`));
 
-app.post("/login", userLogin)
-
-app.listen(4000, console.log(`Server ON`))
-
-module.exports = app
+module.exports = app;
