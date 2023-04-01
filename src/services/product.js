@@ -1,10 +1,7 @@
 const db = require("../db");
 
-const obtenerProducto = async ({ limits = "ALL", page = 1 }) => {
-  const offset = (page - 1) * limits;
-  const formattedQuery = `SELECT * FROM productos LIMIT ${limits} OFFSET ${offset}`
-
-
+const obtenerProducto = async () => {
+  const formattedQuery = `SELECT * FROM productos`
   const {
     rows
   } = await db.query(formattedQuery);
