@@ -20,8 +20,6 @@ const authentication = async (email, password) => {
     rowCount,
   } = await db.query(consulta, values);
 
-  console.log(usuario)
-
   const passwordEsCorrecta = bcrypt.compareSync(password, usuario.password);
 
   if (!passwordEsCorrecta || !rowCount) {

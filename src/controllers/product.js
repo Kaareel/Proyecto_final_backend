@@ -3,6 +3,8 @@ const {
     addProducto,
     deleteProducto,
   } = require("../services/product");
+  const jwt = require("jsonwebtoken");
+  const secret = process.env.JWT_SECRET;
   
   async function getProducto(req, res) {
     try {
@@ -17,8 +19,14 @@ const {
   }
   
   async function nuevoProducto(req, res) {
+   
     try {
-      const id = 1;
+      const {authorization} = req.headers;
+      const token = authorization.replace("Bearer ", "");
+      if(!token){
+      return res.status(401).json({ message: "Token inexistente" });
+    }
+      const {id} = await jwt.verify(token, secret);
       const { titulo, descripcion, img, price } = req.body;
       const producto = await addProducto(titulo, descripcion, img, id, price);
       return res.status(201).json({ producto });
