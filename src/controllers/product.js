@@ -8,8 +8,12 @@ const {
   
   async function getProducto(req, res) {
     try {
-      const { limits, page } = req.query;
-      const productos = await obtenerProducto({ limits, page });
+      const {authorization = ""} = req.headers;
+      const token = authorization.replace("Bearer ", "");
+
+      const {id} = jwt.verify(token);
+
+      const productos = await obtenerProducto(id);
   
       res.status(200).json(productos);
     } catch (error) {

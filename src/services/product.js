@@ -1,6 +1,8 @@
 const db = require("../db");
 
-const obtenerProducto = async () => {
+const obtenerProducto = async (id) => {
+
+  const conditions =  `WHERE autor = ${id}`
   const formattedQuery = `SELECT * FROM productos`
   const {
     rows
