@@ -1,15 +1,13 @@
 const db = require("../db");
 
 const obtenerProducto = async (id) => {
-
-  const conditions =  `WHERE autor = ${id}`
-  const formattedQuery = `SELECT * FROM productos`
-  const {
-    rows
-  } = await db.query(formattedQuery);
+  const condiciones = id ? `WHERE autor = ${id}` : "";
+  const consulta = `SELECT * FROM productos ${condiciones}`;
+  const { rows } = await db.query(consulta);
 
   return rows;
 };
+
 const addProducto = async (titulo, descripcion, img, autor, price) => {
   const consulta =
     "INSERT INTO productos values (DEFAULT, $1, $2, $3, $4,$5) RETURNING id, titulo, descripcion, img, price";
