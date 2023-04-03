@@ -10,6 +10,8 @@ const {
   eliminarProducto,
 } = require('./controllers/product');
 
+const PORT = process.env.PORT || 4000;
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -25,6 +27,6 @@ app.get('/producto/:id', obtenerProducto);
 app.post('/producto', nuevoProducto);
 app.delete('/producto/:id', eliminarProducto);
 
-app.listen(4000, console.log(`Server ON`));
+app.listen(PORT, console.log(`Server ON`));
 
 module.exports = app;
