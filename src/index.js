@@ -14,6 +14,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
 app.post('/signup', signup);
 app.post('/login', login);
 app.get('/producto', obtenerTodosProductos);
