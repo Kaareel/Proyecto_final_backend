@@ -1,8 +1,16 @@
-const db = require("../db");
+const db = require('../db');
 
-const obtenerProducto = async (id) => {
-  const condiciones = id ? `WHERE autor = ${id}` : "";
-  const consulta = `SELECT * FROM productos ${condiciones}`;
+const traerProductos = async (autor, productoId) => {
+  let consulta = `SELECT * FROM productos`;
+
+  if (autor && productoId) {
+    consulta += ` WHERE autor = ${autor} AND id = ${productoId}`;
+  } else if (productoId) {
+    consulta += ` WHERE id = ${productoId} `;
+  } else if (autor) {
+    consulta += ` WHERE autor = ${autor}`;
+  }
+
   const { rows } = await db.query(consulta);
 
   return rows;
@@ -10,7 +18,7 @@ const obtenerProducto = async (id) => {
 
 const addProducto = async (titulo, descripcion, img, autor, price) => {
   const consulta =
-    "INSERT INTO productos values (DEFAULT, $1, $2, $3, $4,$5) RETURNING id, titulo, descripcion, img, price";
+    'INSERT INTO productos values (DEFAULT, $1, $2, $3, $4,$5) RETURNING id, titulo, descripcion, img, price';
 
   const values = [titulo, img, descripcion, price, autor];
   const {
@@ -22,7 +30,7 @@ const addProducto = async (titulo, descripcion, img, autor, price) => {
 
 const deleteProducto = async (id) => {
   const consulta =
-    "DELETE FROM productos WHERE id = $1 RETURNING id, titulo, descripcion, img, price";
+    'DELETE FROM productos WHERE id = $1 RETURNING id, titulo, descripcion, img, price';
 
   const values = [id];
   const {
@@ -32,4 +40,4 @@ const deleteProducto = async (id) => {
   return product;
 };
 
-module.exports = { obtenerProducto, addProducto, deleteProducto };
+module.exports = { traerProductos, addProducto, deleteProducto };
